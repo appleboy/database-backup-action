@@ -1,0 +1,45 @@
+name: 'Online Backup Database'
+description: 'Docker image to periodically backup a your database to AWS S3'
+author: 'Bo-Yi Wu'
+inputs:
+  database_driver:
+    description: support `postgres`, `mysql` or `mongo`. default is `postgres`
+  database_username:
+    description: database username
+  database_password:
+    description: database password
+  database_name:
+    description: database name
+  database_host:
+    description: database host
+  database_opts:
+    description: see the `pg_dump`, `mylsqdump` or `mongodump` command
+  storage_driver:
+    description: support `s3` or `disk`. default is `s3`
+  access_key_id:
+    description: minio or aws s3 access key id
+  secret_access_key:
+    description: minio or aws s3 secret access key
+  storage_endpoint:
+    description: s3 endpoint. default is `s3.amazonaws.com`
+  storage_bucket:
+    description: s3 bucket name
+  storage_region:
+    description: s3 region. default is `ap-northeast-1`
+  storage_path:
+    description: backup folder path in bucket. default is `backup` and all dump file will save in `bucket/path` directory
+  storage_ssl:
+    description: default is `false`
+  storage_insecure_skip_verify:
+    description: default is `false`
+  time_schedule:
+    description: you may use one of several pre-defined schedules in place of a cron expression.
+  time_location:
+    description: by default, all interpretation and scheduling is done in the machine's local time zone. you can specify a different time zone on construction.
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+
+branding:
+  icon: 'terminal'
+  color: 'gray-dark'
