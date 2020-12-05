@@ -5,6 +5,22 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: postgres:12
+        env:
+          POSTGRES_USER: db
+          POSTGRES_DB: db
+          POSTGRES_PASSWORD: db
+        ports:
+        - 5432:5432
+      minio:
+        image: minio/minio:edge
+        env:
+          MINIO_ACCESS_KEY: 1234567890
+          MINIO_SECRET_KEY: 1234567890
+        ports:
+        - 9000:9000
     steps:
     - name: checkout
       uses: actions/checkout@v1
