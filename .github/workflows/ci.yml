@@ -32,4 +32,12 @@ jobs:
         database_username: db
         database_password: db
         database_name: db
-        database_host: postgres
+        database_host: postgres:5432
+
+        storage_driver: s3
+        access_key_id: 1234567890
+        secret_access_key: 1234567890
+        storage_endpoint: minio:9000
+        storage_bucket: test
+        storage_region: ap-northeast-1
+        storage_path: backup
