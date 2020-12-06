@@ -1,0 +1,60 @@
+name: backup mongo database
+on: [push]
+jobs:
+  backup-database:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        mongo: ["3.6-xenial", "4.0-xenial", "4.2-bionic", "4.4-bionic"]
+    container: ubuntu
+    services:
+      mongo:
+        image: mongo:${{ matrix.mongo }}
+        env:
+          MONGO_INITDB_ROOT_USERNAME: db
+          MONGO_INITDB_ROOT_PASSWORD: db
+          MONGO_INITDB_DATABASE: db
+      minio:
+        # https://github.community/t/job-service-command/16477/2
+        # This container is only useful because github actions do not
+        # support providing some container args for services.
+        image: fclairamb/minio-github-actions
+        env:
+          MINIO_ACCESS_KEY: 1234567890
+          MINIO_SECRET_KEY: 1234567890
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+
+    - name: copy dockerfile
+      run: |
+        cp -r docker/Dockerfile.mongo.${{ matrix.mongo }} Dockerfile
+
+    - name: create bucket
+      run: |
+        apt-get update && apt-get install -y wget
+        wget https://dl.min.io/client/mc/release/linux-amd64/mc
+        chmod +x mc
+        ./mc config host add s3 http://minio:9000 1234567890 1234567890 --api s3v4
+        ./mc mb s3/test
+
+    - name: backup mongo
+      uses: ./
+      with:
+        database_driver: mongo
+        database_username: db
+        database_password: db
+        database_name: db
+        database_host: mongo:27017
+
+        storage_driver: s3
+        access_key_id: 1234567890
+        secret_access_key: 1234567890
+        storage_endpoint: minio:9000
+        storage_bucket: test
+        storage_region: ap-northeast-1
+        storage_path: backup
+
+    - name: list buckets and objects
+      run: |
+        ./mc ls s3/test/backup/
