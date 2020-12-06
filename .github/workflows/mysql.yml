@@ -17,6 +17,9 @@ jobs:
           MYSQL_PASSWORD: db
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
       minio:
+        # https://github.community/t/job-service-command/16477/2
+        # This container is only useful because github actions do not
+        # support providing some container args for services.
         image: fclairamb/minio-github-actions
         env:
           MINIO_ACCESS_KEY: 1234567890
