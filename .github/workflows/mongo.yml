@@ -46,6 +46,7 @@ jobs:
         database_password: db
         database_name: db
         database_host: mongo:27017
+        database_opts: "--authenticationDatabase admin"
 
         storage_driver: s3
         access_key_id: 1234567890
