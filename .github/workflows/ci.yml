@@ -14,8 +14,7 @@ jobs:
     steps:
     - name: Verify MySQL connection from container
       run: |
-        apt-get update
-        apt-get install -y mysql-client
+        apt-get update && apt-get install -y mysql-client
         mysql --host mydb -uroot -ppassword -e "SHOW DATABASES"
 
   create-bucket:
@@ -68,6 +67,7 @@ jobs:
 
     - name: create bucket
       run: |
+        apt-get update && apt-get install -y wget
         wget https://dl.min.io/client/mc/release/linux-amd64/mc
         chmod +x mc
         ./mc config host add s3 http://minio:9000 1234567890 1234567890 --api s3v4
