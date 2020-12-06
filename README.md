@@ -1,5 +1,9 @@
 # database-backup-actions
 
+![backup mongo database](https://github.com/appleboy/database-backup-action/workflows/backup%20mongo%20database/badge.svg?branch=master)
+![backup mysql database](https://github.com/appleboy/database-backup-action/workflows/backup%20mysql%20database/badge.svg?branch=master)
+![backup postgres database](https://github.com/appleboy/database-backup-action/workflows/backup%20postgres%20database/badge.svg?branch=master)
+
 [GitHub Action](https://github.com/features/actions) for periodically backup a your database (MySQL,  Postgres or MongoDB) to Local Disk or S3 ([AWS S3](https://aws.amazon.com/free/storage/s3) or [Minio](https://min.io/)).
 
 ## Usage
