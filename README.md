@@ -55,7 +55,7 @@ See [action.yml](./action.yml) for more detailed information.
 * database_password - database password
 * database_name - database name
 * database_host - database host
-* database_opts - see the `pg_dump`, `mylsqdump` or `mongodump` command
+* database_opts - see the `pg_dump`, `mysqldump` or `mongodump` command
 
 ### Storage Section
 

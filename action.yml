@@ -13,7 +13,7 @@ inputs:
   database_host:
     description: database host
   database_opts:
-    description: see the `pg_dump`, `mylsqdump` or `mongodump` command
+    description: see the `pg_dump`, `mysqldump` or `mongodump` command
   storage_driver:
     description: support `s3` or `disk`. default is `s3`
   access_key_id:
