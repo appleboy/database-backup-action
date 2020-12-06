@@ -22,9 +22,18 @@ jobs:
           MINIO_SECRET_KEY: 1234567890
         ports:
         - 9000
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: password
     steps:
     - name: checkout
       uses: actions/checkout@v1
+
+    - name: Verify MySQL connection from container
+      run: |
+        apt-get update && apt-get install -y mysql-client
+        mysql --host mysql -uroot -ppassword -e "SHOW DATABASES"
 
     - name: backup postgres
       uses: ./
