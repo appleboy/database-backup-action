@@ -40,7 +40,7 @@ jobs:
     container: ubuntu
     services:
       postgres:
-        image: postgres:12
+        image: postgres:13
         env:
           POSTGRES_USER: db
           POSTGRES_DB: db
