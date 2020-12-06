@@ -1,0 +1,63 @@
+name: backup postgres database
+on: [push]
+jobs:
+  backup-database:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        postgres: [9, 10, 11, 12, 13]
+    container: ubuntu
+    services:
+      postgres:
+        image: postgres:${{ matrix.postgres }}
+        env:
+          POSTGRES_USER: db
+          POSTGRES_DB: db
+          POSTGRES_PASSWORD: db
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      minio:
+        image: fclairamb/minio-github-actions
+        env:
+          MINIO_ACCESS_KEY: 1234567890
+          MINIO_SECRET_KEY: 1234567890
+    steps:
+    - name: checkout
+      uses: actions/checkout@v1
+
+    - name: copy dockerfile
+      run: |
+        cp -r docker/Docker.postgres.${{ matrix.postgres }} Dockerfile
+
+    - name: create bucket
+      run: |
+        apt-get update && apt-get install -y wget
+        wget https://dl.min.io/client/mc/release/linux-amd64/mc
+        chmod +x mc
+        ./mc config host add s3 http://minio:9000 1234567890 1234567890 --api s3v4
+        ./mc mb s3/test
+
+    - name: backup postgres
+      uses: ./
+      with:
+        database_driver: postgres
+        database_username: db
+        database_password: db
+        database_name: db
+        database_host: postgres:5432
+
+        storage_driver: s3
+        access_key_id: 1234567890
+        secret_access_key: 1234567890
+        storage_endpoint: minio:9000
+        storage_bucket: test
+        storage_region: ap-northeast-1
+        storage_path: backup
+
+    - name: list buckets and objects
+      run: |
+        ./mc ls s3/test/backup/
