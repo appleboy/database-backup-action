@@ -21,18 +21,17 @@ jobs:
   create-bucket:
     runs-on: ubuntu-latest
     container: minio/mc
-    # container: ubuntu
     services:
       minio:
+        # https://github.community/t/job-service-command/16477/2
+        # This container is only useful because github actions do not
+        # support providing some container args for services.
         image: fclairamb/minio-github-actions
         env:
           MINIO_ACCESS_KEY: 1234567890
           MINIO_SECRET_KEY: 1234567890
     steps:
     - name: create bucket
-      # run: |
-      #   apt-get update && apt-get install -y curl
-      #   curl -v http://minio:9000
       run: |
         mc config host add s3 http://minio:9000 1234567890 1234567890 --api s3v4
         mc mb s3/test
@@ -54,7 +53,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       minio:
-        image: minio/minio:edge
+        image: fclairamb/minio-github-actions
         env:
           MINIO_ACCESS_KEY: 1234567890
           MINIO_SECRET_KEY: 1234567890
@@ -67,10 +66,12 @@ jobs:
     - name: checkout
       uses: actions/checkout@v1
 
-    - name: Verify MySQL connection from container
+    - name: create bucket
       run: |
-        apt-get update && apt-get install -y mysql-client
-        mysql --host mysql -uroot -ppassword -e "SHOW DATABASES"
+        wget https://dl.min.io/client/mc/release/linux-amd64/mc
+        chmod +x mc
+        ./mc config host add s3 http://minio:9000 1234567890 1234567890 --api s3v4
+        ./mc mb s3/test
 
     - name: backup postgres
       uses: ./
