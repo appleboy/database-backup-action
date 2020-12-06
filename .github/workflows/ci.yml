@@ -89,3 +89,7 @@ jobs:
         storage_bucket: test
         storage_region: ap-northeast-1
         storage_path: backup
+
+    - name: list buckets and objects
+      run: |
+        ./mc ls s3/test/backup/
