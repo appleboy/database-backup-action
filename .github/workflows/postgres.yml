@@ -31,7 +31,7 @@ jobs:
 
     - name: copy dockerfile
       run: |
-        cp -r docker/Docker.postgres.${{ matrix.postgres }} Dockerfile
+        cp -r docker/Dockerfile.postgres.${{ matrix.postgres }} Dockerfile
 
     - name: create bucket
       run: |
