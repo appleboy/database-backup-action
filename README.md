@@ -8,40 +8,68 @@
 
 ## Usage
 
-Each line of a crontab file represents a job, and looks like this:
+### Postgres
 
-```sh
-# ┌───────────── minute (0 - 59)
-# │ ┌───────────── hour (0 - 23)
-# │ │ ┌───────────── day of the month (1 - 31)
-# │ │ │ ┌───────────── month (1 - 12)
-# │ │ │ │ ┌───────────── day of the week (0 - 6) (Sunday to Saturday;
-# │ │ │ │ │                                   7 is also Sunday on some systems)
-# │ │ │ │ │
-# │ │ │ │ │
-# * * * * * <command to execute>
+```yaml
+    - name: backup postgres
+      uses: ./
+      with:
+        database_driver: postgres
+        database_username: db
+        database_password: db
+        database_name: db
+        database_host: postgres:5432
+
+        storage_driver: s3
+        access_key_id: 1234567890
+        secret_access_key: 1234567890
+        storage_endpoint: minio:9000
+        storage_bucket: test
+        storage_region: ap-northeast-1
+        storage_path: backup
 ```
 
-A cron expression represents a set of times, using 5 space-separated fields.
+### MySQL
 
-Field name   | Mandatory? | Allowed values  | Allowed special characters
-----------   | ---------- | --------------  | --------------------------
-Minutes      | Yes        | 0-59            | * / , -
-Hours        | Yes        | 0-23            | * / , -
-Day of month | Yes        | 1-31            | * / , - ?
-Month        | Yes        | 1-12 or JAN-DEC | * / , -
-Day of week  | Yes        | 0-6 or SUN-SAT  | * / , - ?
+```yaml
+    - name: backup mysql
+      uses: ./
+      with:
+        database_driver: mysql
+        database_username: db
+        database_password: db
+        database_name: db
+        database_host: mysql:3306
 
-You may use one of several pre-defined schedules in place of a cron expression.
+        storage_driver: s3
+        access_key_id: 1234567890
+        secret_access_key: 1234567890
+        storage_endpoint: minio:9000
+        storage_bucket: test
+        storage_region: ap-northeast-1
+        storage_path: backup
+```
 
-```sh
-Entry                  | Description                                | Equivalent To
------                  | -----------                                | -------------
-@yearly (or @annually) | Run once a year, midnight, Jan. 1st        | 0 0 1 1 *
-@monthly               | Run once a month, midnight, first of month | 0 0 1 * *
-@weekly                | Run once a week, midnight between Sat/Sun  | 0 0 * * 0
-@daily (or @midnight)  | Run once a day, midnight                   | 0 0 * * *
-@hourly                | Run once an hour, beginning of hour        | 0 * * * *
+### MongoDB
+
+```yaml
+    - name: backup mongo
+      uses: ./
+      with:
+        database_driver: mongo
+        database_username: db
+        database_password: db
+        database_name: db
+        database_host: mongo:27017
+        database_opts: "--authenticationDatabase admin"
+
+        storage_driver: s3
+        access_key_id: 1234567890
+        secret_access_key: 1234567890
+        storage_endpoint: minio:9000
+        storage_bucket: test
+        storage_region: ap-northeast-1
+        storage_path: backup
 ```
 
 ## Input variables
