@@ -4,6 +4,7 @@ author: 'Bo-Yi Wu'
 inputs:
   database_driver:
     description: support `postgres`, `mysql` or `mongo`. default is `postgres`
+    default: postgres
   database_username:
     description: database username
   database_password:
@@ -16,26 +17,28 @@ inputs:
     description: see the `pg_dump`, `mysqldump` or `mongodump` command
   storage_driver:
     description: support `s3` or `disk`. default is `s3`
+    default: s3
   access_key_id:
     description: minio or aws s3 access key id
   secret_access_key:
     description: minio or aws s3 secret access key
   storage_endpoint:
     description: s3 endpoint. default is `s3.amazonaws.com`
+    default: s3.amazonaws.com
   storage_bucket:
     description: s3 bucket name
   storage_region:
     description: s3 region. default is `ap-northeast-1`
+    default: ap-northeast-1
   storage_path:
     description: backup folder path in bucket. default is `backup` and all dump file will save in `bucket/path` directory
+    default: backup
   storage_ssl:
     description: default is `false`
+    default: "false"
   storage_insecure_skip_verify:
     description: default is `false`
-  time_schedule:
-    description: you may use one of several pre-defined schedules in place of a cron expression.
-  time_location:
-    description: by default, all interpretation and scheduling is done in the machine's local time zone. you can specify a different time zone on construction.
+    default: "false"
 runs:
   using: 'docker'
   image: 'Dockerfile'
