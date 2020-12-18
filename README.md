@@ -93,7 +93,7 @@ See [action.yml](./action.yml) for more detailed information.
 * storage_endpoint - s3 endpoint. default is `s3.amazonaws.com`
 * storage_bucket - s3 bucket name
 * storage_region - s3 region. default is `ap-northeast-1`
-* storage_path - backup folder path in bucket. default is `backup` and all dump file will save in `bucket/path` directory
+* storage_path - backup folder path in bucket. default is `backup` and all dump file will save in `bucket/backup` directory
 * storage_ssl - default is `false`
 * storage_insecure_skip_verify - default is `false`
 
