@@ -24,7 +24,7 @@ jobs:
           MINIO_SECRET_KEY: 1234567890
     steps:
     - name: checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
 
     - name: copy dockerfile
       run: |
