@@ -37,7 +37,7 @@ jobs:
         apt-get update && apt-get install -y wget
         wget https://dl.min.io/client/mc/release/linux-amd64/mc
         chmod +x mc
-        ./mc config host add s3 http://minio:9000 1234567890 1234567890 --api s3v4
+        ./mc alias set s3 http://minio:9000 1234567890 1234567890 --api s3v4
         ./mc mb s3/test
 
     - name: backup mysql
